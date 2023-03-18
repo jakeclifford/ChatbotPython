@@ -6,20 +6,29 @@
     <title>Chat with GPT-4</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
+<body onload="scrollToBottom()">
     <div class="container">
-        <h1>Chat with GPT-4</h1>
-        <form action="/" method="POST">
-            <label for="user_input">You:</label>
-            <input type="text" name="user_input" id="user_input" required>
-            <button type="submit">Send</button>
-        </form>
-        {% if user_input and response %}
-        <div>
-            <p><strong>You:</strong> {{ user_input }}</p>
-            <p><strong>GPT-4:</strong> {{ response }}</p>
+        <h1>Ai Travel Assistant</h1>
+        <div class="messages">
+            {% for message in conversation_history %}
+                {% if message.role == 'user' %}
+                    <p class="user-message"><span class="user-avatar"></span><span class="message-text">{{ message.content }}</span></p>
+                {% elif message.role == 'assistant' %}
+                    <p class="assistant-message"><span class="assistant-avatar"></span><span class="message-text">{{ message.content }}</span></p>
+                {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
     </div>
+    <form action="/" method="POST" onsubmit="scrollToBottom()">
+        <label for="user_input">You:</label>
+        <input type="text" name="user_input" id="user_input" required>
+        <button type="submit">Send</button>
+    </form>
+    <script>
+        function scrollToBottom() {
+            const messagesContainer = document.querySelector(".messages");
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    </script>
 </body>
 </html>
