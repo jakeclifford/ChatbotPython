@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with GPT-4</title>
+    <!-- Primary Meta Tags -->
+    <title>TravelGPT</title>
+    <meta name="title" content="Ai Travel Assistant">
+    <meta name="description" content="Your Own Personal Ai Travel Guide ">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://travelpgt.herokuapp.com/">
+    <meta property="og:title" content="Ai Travel Assistant">
+    <meta property="og:description" content="Your Own Personal Ai Travel Guide ">
+    <meta property="og:image" content="./meta.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://travelpgt.herokuapp.com/">
+    <meta property="twitter:title" content="Ai Travel Assistant">
+    <meta property="twitter:description" content="Your Own Personal Ai Travel Guide ">
+    <meta property="twitter:image" content="meta.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body onload="scrollToBottom()">
     <div class="container">
-        <h1>Ai Travel Assistant</h1>
+        <h1>TraveGPT</h1>
         <div class="messages">
             {% for message in conversation_history %}
                 {% if message.role == 'user' %}
