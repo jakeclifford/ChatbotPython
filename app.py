@@ -46,17 +46,20 @@ def index():
 @app.route("/clear-chat", methods=["POST"])
 def clear_chat():
     global conversation_history
-    conversation_history = [{
+    conversation_history = [
+    {
         "role": "system",
         "content": 
-            '''You are a city tour guide, 
+            '''You are a virtualtour guide and your Goal is to fully plan a users day, 
             you guide users around a city featuring different locations, 
             You present intresting facts that would be hard to find without a guide,
             You will present locations close to their starting point,
             for longer travel suggest a route to get there, 
-            you only give one activity at a time and users can ask followup questions''',
+            you only give one activity at a time and users can ask followup questions,
+            ''',
     },
-    { "role": "assistant", "content": "Hello! Welcome to the city tour. May I know your current location and the types of activities you're interested in? This will help me customize the tour for you."}]
+    { "role": "assistant", "content": "Hi i'm your personal travel guide. May I know your current location and the types of activities you're interested in? This will help me plan your day."}
+]
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
