@@ -20,7 +20,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     padding-bottom: 70px;
-    height: 80vh
+    height: 75vh
 }
 
 h1 {
@@ -36,7 +36,7 @@ h1 {
     padding-bottom: 20px; /* Add padding to the bottom of the messages container */
 }
 
-form {
+.form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,6 +49,10 @@ form {
     background-color: #f0f0f0;
     padding: 20px 0;
     border-top: 1px solid #d8d8d8;
+}
+
+form {
+    width: 100%;
 }
 
 label {
@@ -77,6 +81,7 @@ button {
     padding: 0.5rem 1rem;
     cursor: pointer;
     width: 100%;
+    margin-bottom: 5px;
 }
 
 button:hover {
@@ -137,6 +142,10 @@ strong {
     background-color: #0066cc;
 }
 
+.clear-chat {
+    background-color: rgb(204, 50, 50);
+}
+
 .assistant-avatar {
     background-color: #999999;
 }
@@ -146,6 +155,24 @@ strong {
 .message-text {
     align-self: center;
 }
+
+.typing-indicator {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #0099ff;
+    margin-right: 5px;
+    animation: blink 1s infinite;
+}
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
 
 @media (max-width: 767px) {
     .container {

@@ -12,23 +12,102 @@
         <div class="messages">
             {% for message in conversation_history %}
                 {% if message.role == 'user' %}
-                    <p class="user-message"><span class="user-avatar"></span><span class="message-text">{{ message.content }}</span></p>
-                {% elif message.role == 'assistant' %}
-                    <p class="assistant-message"><span class="assistant-avatar"></span><span class="message-text">{{ message.content }}</span></p>
+                    <div class="user-message">
+                        <div class="user-avatar"></div>
+                        <p class="message-text"><strong>You:</strong> {{ message.content }}</p>
+                    </div>
+            {% elif message.role == 'assistant' %}
+                    <div class="assistant-message">
+                        <div class="assistant-avatar"></div>
+                        <p class="message-text"><strong>GPT-4:</strong> {{ message.content }}</p>
+                    </div>
                 {% endif %}
             {% endfor %}
         </div>
     </div>
-    <form action="/" method="POST" onsubmit="scrollToBottom()">
-        <label for="user_input">You:</label>
-        <input type="text" name="user_input" id="user_input" required autocomplete="off">
-        <button type="submit">Send</button>
-    </form>
+    <div class="form-container">
+        <form action="/" method="POST" onsubmit="return submitForm(); scrollToBottom()">
+            <label for="user_input">You:</label>
+            <input type="text" name="user_input" id="user_input" required autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+        <form action="/clear-chat" method="POST">
+            <button type="submit" class="clear-chat">Clear Chat</button>
+        </form>
+    </div>
     <script>
         function scrollToBottom() {
             const messagesContainer = document.querySelector(".messages");
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
+
+        function submitForm() {
+    const inputField = document.getElementById('user_input');
+    const userMessage = inputField.value;
+
+    // Display user's message
+    const messagesContainer = document.querySelector('.messages');
+    const userMessageElement = document.createElement('div');
+    userMessageElement.classList.add('user-message');
+
+    const userAvatar = document.createElement('div');
+    userAvatar.classList.add('user-avatar');
+    userMessageElement.appendChild(userAvatar);
+
+    const userMessageText = document.createElement('div');
+    userMessageText.classList.add('message-text');
+    userMessageText.innerHTML = `<strong>You:</strong> ${userMessage}`;
+    userMessageElement.appendChild(userMessageText);
+
+    messagesContainer.appendChild(userMessageElement);
+
+    // Clear the input field
+    inputField.value = '';
+
+    // Display typing indicator
+    const typingIndicatorElement = document.createElement('div');
+    typingIndicatorElement.classList.add('assistant-message');
+
+    const assistantAvatar = document.createElement('div');
+    assistantAvatar.classList.add('assistant-avatar');
+    typingIndicatorElement.appendChild(assistantAvatar);
+
+    const typingIndicator = document.createElement('span');
+    typingIndicator.classList.add('typing-indicator');
+    typingIndicatorElement.appendChild(typingIndicator);
+
+    messagesContainer.appendChild(typingIndicatorElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Send the message to the server and get the response
+    const formData = new FormData();
+    formData.append('user_input', userMessage);
+
+    fetch('/', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text())
+        .then(text => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(text, 'text/html');
+            const responseElement = htmlDoc.querySelector('.assistant-message:last-child');
+
+            // Remove typing indicator
+            messagesContainer.removeChild(typingIndicatorElement);
+
+            const responseText = responseElement.querySelector('.message-text');
+            const paragraphs = responseText.innerHTML.split('\n').filter(p => p.trim() !== '');
+
+            // Display the chatbot's response
+            messagesContainer.appendChild(responseElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+
+    // Prevent the form from submitting normally
+    return false;
+}
+
     </script>
 </body>
 </html>
