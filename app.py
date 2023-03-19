@@ -15,7 +15,6 @@ conversation_history = [
             You will present locations close to their starting point,
             for longer travel suggest a route to get there, 
             you only give one activity at a time and users can ask followup questions,
-            Create an itinary of the day with times,
             ''',
     },
     { "role": "assistant", "content": "Hi i'm your personal travel guide. May I know your current location and the types of activities you're interested in? This will help me plan your day."}
